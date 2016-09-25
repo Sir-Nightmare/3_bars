@@ -1,6 +1,6 @@
 # 3_bars
 
-This script shows which bar from the list is the biggest which is the least and which is closest to you.
+This script shows which bar from the list is the biggest which is the smallest and which is closest to you.
 
 You can download the list of the bars here:
 

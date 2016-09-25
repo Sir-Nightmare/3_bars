@@ -18,7 +18,7 @@ def get_biggest_bar(data):
             max_num_of_seats = bar['Cells']['SeatsCount']
             biggest_bar = bar['Cells']['Name']
 
-    return [biggest_bar, max_num_of_seats]
+    return (biggest_bar, max_num_of_seats)
 
 
 def get_smallest_bar(data):
@@ -30,7 +30,7 @@ def get_smallest_bar(data):
             min_num_of_seats = bar['Cells']['SeatsCount']
             smallest_bar = bar['Cells']['Name']
 
-    return [smallest_bar, min_num_of_seats]
+    return (smallest_bar, min_num_of_seats)
 
 
 def distance(current_longitude, current_latitude, bar_longitude, bar_latitude):
@@ -65,20 +65,18 @@ def get_closest_bar(data, longitude, latitude):
         if dist_to_bar < min_distance:
             min_distance = dist_to_bar
             closest_bar = bar['Cells']['Name']
-    return closest_bar, min_distance
+    return (closest_bar, round(min_distance))
 
 
 if __name__ == '__main__':
-    filepath = 'bar_list.json'
+    filepath = sys.argv[1]
     bars_info = load_data(filepath)
-    bb = get_biggest_bar(bars_info)
-    sb = get_smallest_bar(bars_info)
-    print("The biggest bar is", bb[0] + ':', bb[1], "seats")
-    print("The smallest bar is", sb[0] + ':', sb[1], "seats")
+    biggest_bar = get_biggest_bar(bars_info)
+    smallest_bar = get_smallest_bar(bars_info)
+    print("The biggest bar is %s: %d seats." % biggest_bar)
+    print("The smallest bar is %s: %d seats." % smallest_bar)
 
-    current_longitude = 37.617778
-    current_latitude = 55.755833
-    # current_longitude = float(input('Enter current longitude:'))
-    # current_latitude = float(input('Enter current latitude:'))
-    cb = get_closest_bar(bars_info, current_longitude, current_latitude)
-    print("The closest bar is", cb[0] + ':', cb[1], "meters")
+    current_longitude = float(input('Enter current longitude:\n'))
+    current_latitude = float(input('Enter current latitude:\n'))
+    closest_bar = get_closest_bar(bars_info, current_longitude, current_latitude)
+    print("The closest bar is %s: %d metres." % closest_bar)
