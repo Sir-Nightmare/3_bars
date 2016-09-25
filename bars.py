@@ -4,10 +4,9 @@ import math
 
 
 def load_data(filepath):
-    data = ""
     with open(filepath, 'r', encoding="utf8") as file:
-        data = file.read()
-    return json.loads(data)
+        data = json.load(file)
+    return data
 
 
 def get_biggest_bar(data):
@@ -34,27 +33,24 @@ def get_smallest_bar(data):
     return [smallest_bar, min_num_of_seats]
 
 
-def distance(current_long, current_lat, bar_long, bar_lat):
-    earth_radius = 6372795
+def distance(current_longitude, current_latitude, bar_longitude, bar_latitude):
+    current_latitude = current_latitude * math.pi / 180.
+    bar_latitude = bar_latitude * math.pi / 180.
+    current_longitude = current_longitude * math.pi / 180.
+    bar_longitude = bar_longitude * math.pi / 180.
 
-    current_lat = current_lat * math.pi / 180.
-    bar_lat = bar_lat * math.pi / 180.
-    current_long = current_long * math.pi / 180.
-    bar_long = bar_long * math.pi / 180.
+    cosl1 = math.cos(current_latitude)
+    cosl2 = math.cos(bar_latitude)
+    sinl1 = math.sin(current_latitude)
+    sinl2 = math.sin(bar_latitude)
+    longitude_delta = bar_longitude - current_longitude
+    cos_delta = math.cos(longitude_delta)
+    sin_delta = math.sin(longitude_delta)
 
-    # косинусы и синусы широт и разницы долгот
-    cl1 = math.cos(current_lat)
-    cl2 = math.cos(bar_lat)
-    sl1 = math.sin(current_lat)
-    sl2 = math.sin(bar_lat)
-    delta = bar_long - current_long
-    cdelta = math.cos(delta)
-    sdelta = math.sin(delta)
-
-    # вычисления длины большого круга
-    numerator = math.sqrt(math.pow(cl2 * sdelta, 2) + math.pow(cl1 * sl2 - sl1 * cl2 * cdelta, 2))
-    denominator = sl1 * sl2 + cl1 * cl2 * cdelta
+    numerator = math.sqrt(math.pow(cosl2 * sin_delta, 2) + math.pow(cosl1 * sinl2 - sinl1 * cosl2 * cos_delta, 2))
+    denominator = sinl1 * sinl2 + cosl1 * cosl2 * cos_delta
     angular_disparity = math.atan2(numerator, denominator)
+    earth_radius = 6372795
     distance = angular_disparity * earth_radius
     return distance
 
@@ -73,15 +69,16 @@ def get_closest_bar(data, longitude, latitude):
 
 
 if __name__ == '__main__':
-    bars_info = load_data('bar_list.json')
+    filepath = 'bar_list.json'
+    bars_info = load_data(filepath)
     bb = get_biggest_bar(bars_info)
     sb = get_smallest_bar(bars_info)
     print("The biggest bar is", bb[0] + ':', bb[1], "seats")
     print("The smallest bar is", sb[0] + ':', sb[1], "seats")
 
-    # current_longitude = 37.617778
-    # current_latitude = 55.755833
-    current_longitude = float(input('Enter current longitude:'))
-    current_latitude = float(input('Enter current latitude:'))
+    current_longitude = 37.617778
+    current_latitude = 55.755833
+    # current_longitude = float(input('Enter current longitude:'))
+    # current_latitude = float(input('Enter current latitude:'))
     cb = get_closest_bar(bars_info, current_longitude, current_latitude)
-    print("The closest bar is", cb)
+    print("The closest bar is", cb[0] + ':', cb[1], "meters")
