@@ -3,9 +3,9 @@ import json
 import math
 
 
-def load_data(filepath):
-    with open(filepath, 'r', encoding="utf8") as file:
-        data = json.load(file)
+def load_bar_data(filepath):
+    with open(filepath, 'r', encoding="utf8") as input_file:
+        data = json.load(input_file)
     return data
 
 
@@ -70,7 +70,7 @@ def get_closest_bar(data, longitude, latitude):
 
 if __name__ == '__main__':
     filepath = sys.argv[1]
-    bars_info = load_data(filepath)
+    bars_info = load_bar_data(filepath)
     biggest_bar = get_biggest_bar(bars_info)
     smallest_bar = get_smallest_bar(bars_info)
     print("The biggest bar is %s: %d seats." % biggest_bar)
