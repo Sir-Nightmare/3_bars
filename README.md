@@ -9,10 +9,11 @@ You can download the list of the bars [here](http://data.mos.ru/opendata/7710881
 You can run the script using following command: _python bars.py \<path_to_json_file\>_
 
 ##Function of finding the closest bar 
-This function uses modification of haversine formula
- witch can give very accurate distance in meters:
+This function uses modification of haversine formula which gives distance between two points on a sphere:
   
- ![Folmula](http://wiki.gis-lab.info/images/8/89/Great-cirlcles-09.gif)
+ ![Formula](http://wiki.gis-lab.info/images/8/89/Great-cirlcles-09.gif)
+ 
+ It can give very accurate result in meters.
  
  You can find more information about haversine formula and its modification 
  [here](http://gis-lab.info/qa/great-circles.html) in **Russian**.  
