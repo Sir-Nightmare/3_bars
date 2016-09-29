@@ -10,32 +10,18 @@ def load_bars_data(filepath):
 
 
 def get_biggest_bar(data):
-    max_num_of_seats = data[0]['Cells']['SeatsCount']
-    biggest_bar = data[0]['Cells']['Name']
-
-    for bar in data:
-        if bar['Cells']['SeatsCount'] > max_num_of_seats:
-            max_num_of_seats = bar['Cells']['SeatsCount']
-            biggest_bar = bar['Cells']['Name']
-
-    return (biggest_bar, max_num_of_seats)
+    biggest_bar = max(data, key=lambda i: i['Cells']['SeatsCount'])
+    return (biggest_bar['Cells']['Name'], biggest_bar['Cells']['SeatsCount'])
 
 
 def get_smallest_bar(data):
-    min_num_of_seats = data[0]['Cells']['SeatsCount']
-    smallest_bar = data[0]['Cells']['Name']
-
-    for bar in data:
-        if bar['Cells']['SeatsCount'] < min_num_of_seats:
-            min_num_of_seats = bar['Cells']['SeatsCount']
-            smallest_bar = bar['Cells']['Name']
-
-    return (smallest_bar, min_num_of_seats)
+    smallest_bar = min(data, key=lambda i: i['Cells']['SeatsCount'])
+    return (smallest_bar['Cells']['Name'], smallest_bar['Cells']['SeatsCount'])
 
 
 def distance(current_longitude, current_latitude, bar_longitude, bar_latitude):
     '''
-    Parameters: the coordinates in degrees
+    Parameters: coordinates of the bar in degrees
 
     :return: distance in metres
 
@@ -63,16 +49,16 @@ def distance(current_longitude, current_latitude, bar_longitude, bar_latitude):
 
 
 def get_closest_bar(data, longitude, latitude):
-    bar_longitude, bar_latitude = data[0]['Cells']['geoData']['coordinates']
-    min_distance = distance(longitude, latitude, bar_longitude, bar_latitude)
-    closest_bar = data[0]['Cells']['Name']
-    for bar in data:
-        bar_longitude, bar_latitude = bar['Cells']['geoData']['coordinates']
-        dist_to_bar = distance(longitude, latitude, bar_longitude, bar_latitude)
-        if dist_to_bar < min_distance:
-            min_distance = dist_to_bar
-            closest_bar = bar['Cells']['Name']
-    return (closest_bar, round(min_distance))
+    closest_bar = min(data, key=lambda i: distance(
+        longitude, latitude,
+        i['Cells']['geoData']['coordinates'][0],
+        i['Cells']['geoData']['coordinates'][1]))
+
+    distance_to_closest_bar = round(distance(
+        longitude, latitude,
+        closest_bar['Cells']['geoData']['coordinates'][0],
+        closest_bar['Cells']['geoData']['coordinates'][1]))
+    return (closest_bar['Cells']['Name'], distance_to_closest_bar)
 
 
 if __name__ == '__main__':
@@ -83,7 +69,7 @@ if __name__ == '__main__':
     print("The biggest bar is %s: %d seats." % biggest_bar)
     print("The smallest bar is %s: %d seats." % smallest_bar)
 
-    current_longitude = float(input('Enter current longitude:\n'))
-    current_latitude = float(input('Enter current latitude:\n'))
+    current_longitude = float(input('Enter current longitude in decimal degrees (37.617778):\n'))
+    current_latitude = float(input('Enter current latitude in decimal degrees (55.755833):\n'))
     closest_bar = get_closest_bar(bars_info, current_longitude, current_latitude)
     print("The closest bar is %s: %d metres." % closest_bar)
