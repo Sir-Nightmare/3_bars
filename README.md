@@ -14,12 +14,12 @@ This function uses modification of haversine formula
  witch can give very accurate distance in meters. 
  
  You can find more information about haversine formula and its modification 
- [here](http://gis-lab.info/qa/great-circles.html).
+ [here](http://gis-lab.info/qa/great-circles.html) in **Russian**.
 
 More info about haversine formula on [wiki](https://en.wikipedia.org/wiki/Haversine_formula) 
-and [here](https://rosettacode.org/wiki/Haversine_formula): 
+and [here](https://rosettacode.org/wiki/Haversine_formula) in **Engish** (no info about modifications).
 
-There's **another formula** that finds distance between two points in Cartesian coordinates.
+There's **another formula** that finds distance between two points in Cartesian coordinates.\\
 It works properly if you want to find the closest bar in the city, but 
 it is not very accurate and it cannot give information about actual distance.
 What's more it would be incorrect on big distances. 
