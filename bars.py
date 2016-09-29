@@ -1,6 +1,6 @@
 import sys
 import json
-import math
+from math import radians, sin, cos, sqrt, atan2, pow
 
 
 def load_bars_data(filepath):
@@ -34,23 +34,30 @@ def get_smallest_bar(data):
 
 
 def distance(current_longitude, current_latitude, bar_longitude, bar_latitude):
-    current_latitude = current_latitude * math.pi / 180.
-    bar_latitude = bar_latitude * math.pi / 180.
-    current_longitude = current_longitude * math.pi / 180.
-    bar_longitude = bar_longitude * math.pi / 180.
+    '''
+    Parameters: the coordinates in degrees
 
-    cosl1 = math.cos(current_latitude)
-    cosl2 = math.cos(bar_latitude)
-    sinl1 = math.sin(current_latitude)
-    sinl2 = math.sin(bar_latitude)
-    longitude_delta = bar_longitude - current_longitude
-    cos_delta = math.cos(longitude_delta)
-    sin_delta = math.sin(longitude_delta)
+    :return: distance in metres
 
-    numerator = math.sqrt(math.pow(cosl2 * sin_delta, 2) + math.pow(cosl1 * sinl2 - sinl1 * cosl2 * cos_delta, 2))
+    See more info about this function in readme
+
+    '''
+
+    # sin and cos of latitudes
+    cosl1 = cos(radians(current_latitude))
+    cosl2 = cos(radians(bar_latitude))
+    sinl1 = sin(radians(current_latitude))
+    sinl2 = sin(radians(bar_latitude))
+    # sin and cos of longitude difference
+    longitude_delta = radians(bar_longitude - current_longitude)
+    cos_delta = cos(longitude_delta)
+    sin_delta = sin(longitude_delta)
+    # haversine formula
+    numerator = sqrt(pow(cosl2 * sin_delta, 2) + pow(cosl1 * sinl2 - sinl1 * cosl2 * cos_delta, 2))
     denominator = sinl1 * sinl2 + cosl1 * cosl2 * cos_delta
-    angular_disparity = math.atan2(numerator, denominator)
-    earth_radius = 6372795
+    angular_disparity = atan2(numerator, denominator)  # result of haversine formula(angle)
+
+    earth_radius = 6372795  # in metres
     distance = angular_disparity * earth_radius
     return distance
 
