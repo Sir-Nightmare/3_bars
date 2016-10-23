@@ -6,7 +6,7 @@ This script shows following information about bars from json file:
 * which is closest to you
 
 You can download the list of the bars [here](http://data.mos.ru/opendata/7710881420-bary).   
-You can run the script using following command: _python bars.py \<path_to_json_file\>_
+You can run the script using following command: `python bars.py <path_to_json_file>`
 
 ##Function of finding the closest bar 
 This function uses modification of haversine formula which gives distance between two points on a sphere:

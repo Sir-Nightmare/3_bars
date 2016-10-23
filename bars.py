@@ -63,6 +63,7 @@ def get_closest_bar(data, longitude, latitude):
 
 if __name__ == '__main__':
     filepath = sys.argv[1]
+
     bars_info = load_bars_data(filepath)
     biggest_bar = get_biggest_bar(bars_info)
     smallest_bar = get_smallest_bar(bars_info)
