@@ -13,7 +13,7 @@ This function uses modification of haversine formula which gives distance betwee
   
  ![Formula](http://wiki.gis-lab.info/images/8/89/Great-cirlcles-09.gif)
  
- It can give very accurate result in meters.
+The function can give very accurate result in meters.
  
  You can find more information about haversine formula and its modification 
  [here](http://gis-lab.info/qa/great-circles.html) in **Russian**.  
